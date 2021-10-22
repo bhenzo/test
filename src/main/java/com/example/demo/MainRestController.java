@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -8,15 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entities.Mate;
 import com.example.demo.services.PDFService;
-
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 @RestController
 public class MainRestController {
 
 	private PDFService pdfsrv;
+	private Logger log = LoggerFactory.getLogger(MainRestController.class);
 
 	public MainRestController(@Qualifier("PDFServiceJasperImpl") PDFService pdfsrv) {
 		this.pdfsrv = pdfsrv;
@@ -25,7 +25,10 @@ public class MainRestController {
 	
 	@GetMapping("/")
 	public ResponseEntity<String> home(){
-		return ResponseEntity.ok("Hola!!");
+		log.debug("Logeando un mensaje");
+		log.info("Logeando un INFO");
+		log.error("Logeando un error");
+		return ResponseEntity.ok("Hola 2!!");
 	}
 
 	@GetMapping("/generate")

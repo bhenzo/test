@@ -21,10 +21,9 @@ public class MainRestController {
 	public MainRestController(@Qualifier("PDFServiceJasperImpl") PDFService pdfsrv) {
 		this.pdfsrv = pdfsrv;
 	}
-	
-	
+
 	@GetMapping("/")
-	public ResponseEntity<String> home(){
+	public ResponseEntity<String> home() {
 		log.debug("Logeando un mensaje");
 		log.info("Logeando un INFO");
 		log.error("Logeando un error");
@@ -33,25 +32,27 @@ public class MainRestController {
 
 	@GetMapping("/generate")
 	public ResponseEntity<byte[]> generate() {
-
-		byte[] contents = null;
+		log.info("Ejecutando GENERATE");
 		try {
+			byte[] contents = null;
+
 			contents = pdfsrv.generatePDF("test");
+
+			System.out.println("Report size: " + contents.length);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_PDF);
+
+			String filename = "output.pdf";
+			headers.setContentDispositionFormData(filename, filename);
+			headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+			ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
+			return response;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			log.error("Se produjo un ERROR: {}", e.getMessage());
 			e.printStackTrace();
 		}
-
-		System.out.println("Report size: " + contents.length);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_PDF);
-	
-		String filename = "output.pdf";
-		headers.setContentDispositionFormData(filename, filename);
-		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-		ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
-		return response;
+		return null;
 
 	}
-	
+
 }

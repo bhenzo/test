@@ -21,10 +21,11 @@ public class MainRestController {
 	public MainRestController(@Qualifier("PDFServiceJasperImpl") PDFService pdfsrv) {
 		this.pdfsrv = pdfsrv;
 	}
-
 	
-	public ResponseEntity<String> testFallback(Throwable t){
-		return new ResponseEntity<String>("Test down", HttpStatus.INTERNAL_SERVER_ERROR);
+	
+	@GetMapping("/")
+	public ResponseEntity<String> home(){
+		return ResponseEntity.ok("Hola!!");
 	}
 
 	@GetMapping("/generate")

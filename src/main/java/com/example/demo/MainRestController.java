@@ -27,6 +27,21 @@ public class MainRestController {
 		log.debug("Logeando un mensaje");
 		log.info("Logeando un INFO");
 		log.error("Logeando un error");
+		return ResponseEntity.ok("Hola 3!!");
+	}
+	
+	@GetMapping("/test")
+	public ResponseEntity<String> test() {
+		log.info("func: test()");
+		
+		try {
+			byte[] contents = pdfsrv.generatePDF("test");
+			log.info("PDF generado, tamaño: {}", contents.length);
+		} catch (Exception e) {
+			log.error("Error al generar PDF: {}", e.getMessage());
+			e.printStackTrace();
+		}
+		
 		return ResponseEntity.ok("Hola 2!!");
 	}
 

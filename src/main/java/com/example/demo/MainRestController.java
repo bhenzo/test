@@ -30,6 +30,13 @@ public class MainRestController {
 		return ResponseEntity.ok("Hola 3!!");
 	}
 	
+	@GetMapping("/tetsbranch")
+	public ResponseEntity<String> testBranch() {
+		log.debug("Logeando un mensaje desde test branch");
+	
+		return ResponseEntity.ok("Hola 4!!");
+	}
+
 	@GetMapping("/test")
 	public ResponseEntity<String> test() {
 		log.info("func: test()");
